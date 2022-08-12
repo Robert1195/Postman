@@ -81,6 +81,7 @@ API tests for the Trello.com website using the Postman tool
 The easiest way to install Newman is using NPM. If you have Node.js installed, it is most likely that you have NPM installed as well.
 
     $ npm install -g newman
+    
 This installs Newman globally on your system allowing you to run it from anywhere. If you want to install it locally. Just remove the -g flag.
 
 ## Running Tests
