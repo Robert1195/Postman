@@ -1,0 +1,569 @@
+{
+	"info": {
+		"_postman_id": "10ac5c31-535c-4501-84e2-8119bb018923",
+		"name": "Trello.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22346421"
+	},
+	"item": [
+		{
+			"name": "Create a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let respBody;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"    respBody = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify board name\", () => {\r",
+							"    pm.expect(respBody.name).to.be.eql(pm.collectionVariables.get(\"boardName\"))\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify length of id\", () => {\r",
+							"    pm.expect(respBody.id.length).to.greaterThan(5)\r",
+							"    pm.collectionVariables.set(\"boardID\", respBody.id)\r",
+							"})  "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/boards/?name={{boardName}}&key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{boardName}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Boards that Member belongs to",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let respBody;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"    respBody = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify value of the name\", ()=> {\r",
+							"    respBody.map(item => {\r",
+							"        pm.expect(item.name).to.be.a(\"string\")\r",
+							"    })\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/members/me/boards?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"members",
+						"me",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a List on a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let respBody;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"    respBody = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify value of the name\", () => {\r",
+							"    pm.expect(respBody.name).to.be.eql(pm.collectionVariables.get(\"listName\"))\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify response id\", () => {\r",
+							"    pm.expect(respBody.id).length.greaterThan(5)\r",
+							"    pm.collectionVariables.set(\"listID\", respBody.id)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/boards/{{boardID}}/lists?name={{listName}}&key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boards",
+						"{{boardID}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{listName}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET a list on a board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let respBody;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"    respBody = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify closed value\", () => {\r",
+							"    respBody.map(item => {\r",
+							"        pm.expect(item.closed).to.eql(false)\r",
+							"    })\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify closed type\", () => {\r",
+							"    respBody.map(item => {\r",
+							"        pm.expect(item.closed).to.be.a(\"Boolean\")\r",
+							"    })\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/boards/{{boardID}}/lists?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boards",
+						"{{boardID}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a New Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let respBody;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () => {\r",
+							"    pm. response.to.have.status(200);\r",
+							"    respBody = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify idList\"), () => {\r",
+							"    pm.expect(respBody.idList).to.eql(pm.collectionVariables.get(\"listID\"))\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Should verify idBoard\"), () => {\r",
+							"    pm.expect(respBody.idList).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+							"}\r",
+							"\r",
+							"pm.collectionVariables.set(\"cardID\", respBody.id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cards?idList={{listID}}&key={{key}}&token={{token}}&name={{cardName}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{listID}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "{{cardName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cards on a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let respBody;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"    respBody = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify idList\"), () => {\r",
+							"    pm.expect(respBody.idList).to.eql(pm.collectionVariables.get(\"listID\"))\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Should verify idBoard\"), () => {\r",
+							"    pm.expect(respBody.idList).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Should verify shortLink type\", () => {\r",
+							"    respBody.map(item => {\r",
+							"        pm.expect(item.shortLink).to.be.a(\"string\")\r",
+							"    })\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/boards/{{boardID}}/cards?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boards",
+						"{{boardID}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let respBody;\r",
+							"\r",
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"    respBody = pm.response.json();\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify idList\"), () => {\r",
+							"    pm.expect(respBody.idList).to.eql(pm.collectionVariables.get(\"listID\"))\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Should verify idBoard\"), () => {\r",
+							"    pm.expect(respBody.idList).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Should verify updated name value\", () => {\r",
+							"    pm.expect(respBody.name).to.eql(pm.collectionVariables.get(\"updateCardName\"))\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Should verify updated desc value\", () => {\r",
+							"    pm.expect(respBody.desc).to.eql(pm.collectionVariables.get(\"updateCardDesc\"))\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cards/{{cardID}}?key={{key}}&token={{token}}&name={{updateCardName}}&desc={{updateCardDesc}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cards",
+						"{{cardID}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "{{updateCardName}}"
+						},
+						{
+							"key": "desc",
+							"value": "{{updateCardDesc}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cards/{{cardID}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cards",
+						"{{cardID}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should verify status code\", () =>{\r",
+							"    pm. response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/boards/{{boardID}}?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"boards",
+						"{{boardID}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://api.trello.com/1",
+			"type": "string"
+		},
+		{
+			"key": "boardName",
+			"value": "Tablica z API",
+			"type": "string"
+		},
+		{
+			"key": "boardID",
+			"value": ""
+		},
+		{
+			"key": "listName",
+			"value": "W trakcie testów",
+			"type": "string"
+		},
+		{
+			"key": "listID",
+			"value": ""
+		},
+		{
+			"key": "cardName",
+			"value": "Nie działa system logowania",
+			"type": "string"
+		},
+		{
+			"key": "cardID",
+			"value": ""
+		},
+		{
+			"key": "updateCardName",
+			"value": "Nie działa system rejestracji",
+			"type": "string"
+		},
+		{
+			"key": "updateCardDesc",
+			"value": "Test Test Test",
+			"type": "string"
+		}
+	]
+}
