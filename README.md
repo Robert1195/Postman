@@ -6,73 +6,8 @@ API tests for the Trello.com website using the Postman tool
 
 ## List of tests
 
-- Create a Board
-
-    √  Should verify status code
-
-    √  Should verify board name
-
-    √  Should verify length of id
-
-- Get Boards that Member belongs to
-  
-    √  Should verify status code
-
-    √  Should verify value of the name
-
-- Create a List on a Board
-  
-    √  Should verify status code
-
-    √  Should verify value of the name
-
-    √  Should verify response id
-
-- GET a list on a board
-  
-    √  Should verify status code
-
-    √  Should verify closed value
-
-    √  Should verify closed type
-
-- Create a New Card
-  
-    √  Should verify status code
-
-    √  Should verify idList
-
-    √  Should verify idBoard
-
-- Get Cards on a Board
- 
-    √  Should verify status code
-
-    √  Should verify idList
-
-    √  Should verify idBoard
-
-    √  Should verify shortLink type
-
-- Update a Card
-  
-    √  Should verify status code
-
-    √  Should verify idList
-
-    √  Should verify idBoard
-
-    √  Should verify updated name value
-
-    √  Should verify updated desc value
-
-- Delete a Card
-  
-    √  Should verify status code
-
-- Delete a Board
-  
-    √  Should verify status code
+To see full overview of the performed tests see attached html report: 
+Trello.com_postman_test_report.html
 
 
 
@@ -94,4 +29,24 @@ To run tests, run the following command
   newman run Trello.com_collection.json -e Trello.com_environment.json
 ```
 
+# Simple API Book
+
+API tests for the Simple API Book using the Postman tool
+
+## List of tests
+
+To see full overview of the performed tests see attached html report: 
+Simple API Book_postman_test_report.html
+
+## Running Tests
+    1. Run cmd command
+    2. Go to the folder where you downloaded the file Simple_API_Book_collection.json
+
+To run tests, run the following command
+
+```bash
+  newman run Simple_API_Book_collection
+               or
+  newman run https://www.getpostman.com/collections/604b9a45ef01a3746ee7
+```
 
